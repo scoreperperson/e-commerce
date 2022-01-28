@@ -2,7 +2,7 @@ import logo from "./logo.svg";
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { commerce } from "./lib/commerce";
-import { Products, Navbar, Cart } from "./components";
+import { Products, Navbar, Cart, Checkout  } from "./components";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -49,8 +49,7 @@ function App() {
   console.log(cart);
   return (
     <Router>
-      <div className="App">
-        <header className="App-header">
+     
           <Navbar cart={cart} />
           <Routes>
             <Route
@@ -72,9 +71,18 @@ function App() {
                 />
               }
             />
+              <Route
+              exact
+              path="/checkout"
+              element={
+                <Checkout
+                  cart={cart}
+                  onUpdateCartQty={handleUpdateCartQty}
+                />
+              }
+            />
           </Routes>
-        </header>
-      </div>
+     
     </Router>
   );
 }
