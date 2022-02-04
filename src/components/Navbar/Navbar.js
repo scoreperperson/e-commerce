@@ -23,10 +23,7 @@ function Navbar({cart}) {
                     <Badge badgeContent={cart.total_items} color='secondary' component={Link} to='/cart' >
                         <ShoppingCart />
                     </Badge>}
-                    { location.pathname === '/checkout' &&
-                    <Badge badgeContent={cart.total_items} color='secondary' component={Link} to='/cart' >
-                        <ShoppingCart />
-                    </Badge>}
+                 
                 </IconButton>
             </Toolbar>
         </AppBar> 

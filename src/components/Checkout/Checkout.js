@@ -23,7 +23,8 @@ import { Link } from "react-router-dom";
 import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
 import createSpacing from "@material-ui/core/styles/createSpacing";
-function Checkout({ cart, onUpdateCartQty}) {
+import { typography } from "@mui/system";
+function Checkout({ cart, onUpdateCartQty, onCaptureCheckout, order, error }) {
   const steps = ["Shipping Address", "Payment details"];
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
@@ -51,9 +52,35 @@ function Checkout({ cart, onUpdateCartQty}) {
     setShippingData(data);
     nextActiveStep();
   };
-  const Confirmation = () => <div>Confirmation</div>;
-  console.log(cart);
+  const Confirmation = () => order.customer ? 
+  <div>
+  <Typography variant='h5'>
+    Thank you for purchasing, {order.customer.firstname} {order.customer.lastname}. 
+  </Typography>
+  <Divider className={classes.divider}/>
+ 
+  <Typography variant='subtitle2'>
+    
+Order ref: {order.customer_reference}
 
+  </Typography>
+  <br/>
+  <Button variant="outlined" component={Link} to='/'>
+                  Back To Home
+                </Button>
+  </div> : <div className={classes.spinner}> <CircularProgress/> </div>
+  console.log(cart);
+ 
+
+  if(error){
+    <>
+    <Typography>Error:{error}</Typography>
+    <br/>
+    <Button variant="outlined" onClick={backStep}>
+                  Back to Home
+                </Button>
+    </>
+  }
   const Form = () =>
     activeStep === 0 ? (
       <AddressForm checkoutToken={checkoutToken} next={next} />
@@ -62,6 +89,10 @@ function Checkout({ cart, onUpdateCartQty}) {
         checkoutToken={checkoutToken}
         cart={cart}
         onUpdateCartQty={onUpdateCartQty}
+        backStep={backStep}
+        next={next}
+        shippingData={shippingData}
+        onCaptureCheckout={onCaptureCheckout}
       />
     );
   return (

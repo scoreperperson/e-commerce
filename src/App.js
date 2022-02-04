@@ -7,6 +7,8 @@ import { Products, Navbar, Cart, Checkout  } from "./components";
 function App() {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState({});
+  const [order, setOrder] = useState({});
+  const [errorMessage, setErrorMessage] = useState('');
   const fetchProducts = async () => {
     const { data } = await commerce.products.list();
 
@@ -35,6 +37,17 @@ function App() {
   const handleEmptyCart = async () => {
     const response = await commerce.cart.empty();
     setCart(response.cart);
+  };
+  const onCaptureCheckout = async (checkoutTokenId, newOrder) => {
+    try {
+      const incomingOrder = await commerce.checkout.capture(checkoutTokenId, newOrder);
+
+      setOrder(incomingOrder);
+
+      refreshCart();
+    } catch (error) {
+      setErrorMessage(error.data.error.message);
+    }
   };
   const refreshCart = async () => {
     const newCart = await commerce.cart.refresh();
@@ -78,6 +91,9 @@ function App() {
                 <Checkout
                   cart={cart}
                   onUpdateCartQty={handleUpdateCartQty}
+                  onCaptureCheckout={onCaptureCheckout} 
+                  order={order}
+                  error={errorMessage}
                 />
               }
             />

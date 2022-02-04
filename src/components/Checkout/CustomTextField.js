@@ -13,6 +13,7 @@ controlled components with non-standard prop names. Provides onChange, onBlur, n
 value to the child component, and also a fieldState object which contains specific input state.  */}
       <Controller
         control={control}
+        defaultValue=''
         name={name}
         render={({ field }) => <TextField fullWidth label={label} {...field} required />}
       />
