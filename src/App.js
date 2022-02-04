@@ -52,7 +52,7 @@ function App() {
   const refreshCart = async () => {
     const newCart = await commerce.cart.refresh();
 
-    setCart(newCart.cart);
+    setCart(newCart);
   };
   useEffect(() => {
     fetchProducts();
@@ -63,7 +63,7 @@ function App() {
   return (
     <Router>
      
-          <Navbar cart={cart} />
+          <Navbar  totalItems={cart.total_items} />
           <Routes>
             <Route
               exact

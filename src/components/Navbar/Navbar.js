@@ -5,7 +5,7 @@ import useStyles from "./styles";
 import { ShoppingCart } from '@material-ui/icons';
 import logo from '../../assets/spp.jpg'
 import { Link, useLocation } from 'react-router-dom';
-function Navbar({cart}) {
+function Navbar({cart, totalItems}) {
     const location = useLocation()
     const classes = useStyles();
     return ( 
@@ -20,7 +20,7 @@ function Navbar({cart}) {
                 <IconButton>
                   
                     { location.pathname === '/' &&
-                    <Badge badgeContent={cart.total_items} color='secondary' component={Link} to='/cart' >
+                    <Badge badgeContent={totalItems} color='secondary' component={Link} to='/cart' >
                         <ShoppingCart />
                     </Badge>}
                  
